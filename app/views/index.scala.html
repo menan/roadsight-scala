@@ -20,6 +20,7 @@
 
 	@form(routes.Application.newReport){
 		@inputText(reportForm("status"))
+		@inputText(reportForm("address"))
 		@inputText(reportForm("long"))
 		@inputText(reportForm("lat"))
 		<input type="submit" value="Create" />

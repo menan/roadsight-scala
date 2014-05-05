@@ -9,7 +9,7 @@ import play.api.libs.json._
 import mongoContext._
 
 
-case class Report(_id: ObjectId = new ObjectId, at:Date = new Date, status: String, long: Float, lat: Float)
+case class Report(_id: ObjectId = new ObjectId, at:Date = new Date, status: String, address:String, long: Float, lat: Float)
 
 
 object Report extends ModelCompanion[Report, ObjectId]{
@@ -34,8 +34,8 @@ object Report extends ModelCompanion[Report, ObjectId]{
 
     def all(): List[Report] = dao.find(MongoDBObject.empty).toList
 
-	def create(status: String, long: Float, lat: Float){
-		dao.insert(Report(status = status, long = long, lat = lat))
+	def create(status: String, address:String, long: Float, lat: Float){
+		dao.insert(Report(status = status, address = address, long = long, lat = lat))
 	}
 
 	def delete(id: String) {

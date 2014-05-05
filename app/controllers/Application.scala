@@ -12,13 +12,14 @@ import play.api.libs.json._
 
 import models._
 
-case class ReportData(status: String, long: String, lat: String)
+case class ReportData(status: String, address:String, long: String, lat: String)
 
 object Application extends Controller {
 
 	val reportForm = Form(
 	  mapping(
 	  	"status" -> nonEmptyText,
+	  	"address" -> text,
 	  	"long" -> nonEmptyText,
 	  	"lat" -> nonEmptyText
 		)(ReportData.apply)(ReportData.unapply)
@@ -41,7 +42,7 @@ object Application extends Controller {
 		reportForm.bindFromRequest.fold(
 			errors => BadRequest(views.html.index(Report.all(), errors)),
 			userData => {
-				Report.create(userData.status,userData.long.toFloat,userData.lat.toFloat)
+				Report.create(userData.status,userData.address, userData.long.toFloat,userData.lat.toFloat)
 				Redirect(routes.Application.reports)
 			}
 		)
