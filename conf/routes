@@ -10,6 +10,7 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 
 # Reports          
-GET     /reports                  controllers.Application.reports
+GET     /reports                  controllers.Application.reports       
+GET     /reports.json                  controllers.Application.reportsJSON
 POST    /reports                  controllers.Application.newReport
 POST    /reports/:id/delete       controllers.Application.deleteReport(id: String)

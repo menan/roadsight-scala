@@ -8,6 +8,7 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import com.mongodb.casbah.Imports._
+import play.api.libs.json._
 
 import models._
 
@@ -15,13 +16,13 @@ case class ReportData(status: String, long: String, lat: String)
 
 object Application extends Controller {
 
-val reportForm = Form(
-  mapping(
-  	"status" -> nonEmptyText,
-  	"long" -> nonEmptyText,
-  	"lat" -> nonEmptyText
-	)(ReportData.apply)(ReportData.unapply)
-)
+	val reportForm = Form(
+	  mapping(
+	  	"status" -> nonEmptyText,
+	  	"long" -> nonEmptyText,
+	  	"lat" -> nonEmptyText
+		)(ReportData.apply)(ReportData.unapply)
+	)
 
 
   def index =  Action {
@@ -30,6 +31,10 @@ val reportForm = Form(
 
   def reports = Action {
   	Ok(views.html.index(Report.all(),reportForm))
+  }
+  
+  def reportsJSON = Action {
+  	Ok(Json.obj("reports" -> Report.all()))
   }
   
   def newReport = Action { implicit request =>

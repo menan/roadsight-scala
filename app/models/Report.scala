@@ -5,6 +5,7 @@ import com.novus.salat.annotations._
 import com.mongodb.casbah.Imports._
 import com.novus.salat.dao.{ SalatDAO, ModelCompanion }
 import java.util.Date
+import play.api.libs.json._
 import mongoContext._
 
 
@@ -12,10 +13,24 @@ case class Report(_id: ObjectId = new ObjectId, at:Date = new Date, status: Stri
 
 
 object Report extends ModelCompanion[Report, ObjectId]{
+
 	val clientURI = MongoClientURI(System.getenv("MONGOHQ_URL"))
 	val client = MongoClient(clientURI)
-	val collection =  client("app24784027")("reports")
+	val collection =  client("app24891995")("reports")
+
+
 	val dao = new SalatDAO[Report, ObjectId](collection = collection) {}
+
+
+  implicit val objectIdWrites = new Writes[ObjectId] {
+      def writes(oId: ObjectId): JsValue = {
+        JsString(oId.toString)
+      }
+  }
+
+	implicit val implicitReportWrites = Json.writes[Report]
+
+
 
     def all(): List[Report] = dao.find(MongoDBObject.empty).toList
 
