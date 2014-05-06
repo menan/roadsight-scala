@@ -1,29 +1,32 @@
 @(reports: List[Report], reportForm: Form[ReportData])
 
 @import helper._
+@import helper.twitterBootstrap._
 
 @main("Reports") {
 
-	<h1>@reports.size report(s)</h1>
-	<ul>
-		@reports.map { report =>
-				<li>
-					@report.status at @report.long, @report.lat
-					@form(routes.Application.deleteReport(report._id.toString)){
-						<input type="submit" value="Delete" />
-					}
-				</li>
-		}
-	</ul>
+	<h1>Report@reports.pluralize() (@reports.size)</h1>
+		<table class="table table-hover">
+			<tr><th>Time</th><th>Status</th><th>Coordinates</th><th>Address</th><th></th></tr>
+			@reports.map { report =>
+			<tr>
+				<td>@report.at</td><td>@report.status</td><td>@report.long, @report.lat</td><td>@report.address</td><td>
+				@form(routes.Application.deleteReport(report._id.toString)){
+					<input type="submit" value="Delete" class="btn btn-danger"/>
+				}
+				</td>
+			</tr>
+			}
+		</table>
 
-	<h2>Add a new report</h2>
+	<h2>New Report</h2>
 
 	@form(routes.Application.newReport){
-		@inputText(reportForm("status"))
-		@inputText(reportForm("address"))
-		@inputText(reportForm("long"))
-		@inputText(reportForm("lat"))
-		<input type="submit" value="Create" />
+		@inputText(reportForm("status"), 'class -> "form-control", 'size -> 30, '_label -> "Status")
+		@inputText(reportForm("address"), 'class -> "form-control", 'size -> 30, '_label -> "Address")
+		@inputText(reportForm("long"), 'class -> "form-control", '_label -> "Longitude")
+		@inputText(reportForm("lat"), 'class -> "form-control", '_label -> "Latitude")
+		<input type="submit" value="Create" class="btn btn-default" />
 	}
 
 }
