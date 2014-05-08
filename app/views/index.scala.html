@@ -22,7 +22,7 @@
 	<h2>New Report</h2>
 
 	@form(routes.Application.newReport){
-		@inputText(reportForm("status"), 'class -> "form-control", 'size -> 30, '_label -> "Status")
+		@select(reportForm("status"), options = Seq("foo"->"Foo", "bar"->"Bar"), 'class -> "form-control", 'size -> 30, '_label -> "Status")
 		@inputText(reportForm("address"), 'class -> "form-control", 'size -> 30, '_label -> "Address")
 		@inputText(reportForm("long"), 'class -> "form-control", '_label -> "Longitude")
 		@inputText(reportForm("lat"), 'class -> "form-control", '_label -> "Latitude")
